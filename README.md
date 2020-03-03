@@ -11,7 +11,7 @@ As the next evolution of UwU-Lang, it retains all of the "charm" with new featur
 
 * Arrays
 * Functions
-* >,<,= comparators
+* <,=,> comparators
 * division,minus operators
 * If statements
 * Actual error messages in the parser
@@ -47,8 +47,9 @@ stawp
 nuzzels a
 ~~~~
 
-### find the first 100 primes
+### print the first 100 primes
 ~~~~
+UwU is this pwime numbwes?
 wimit iws 100
 siewe iws awway(100)
 i iws 2
