@@ -1,3 +1,5 @@
+![Logo](./UwUpp-logo.png)
+
 ## UwU++ : Degeneracy evolved©
 
 ### warning: WIP
