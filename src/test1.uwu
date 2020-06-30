@@ -5,15 +5,18 @@ b iws 1
 c iws 0
 n iws 0
 
+cache iws awway<10>
+
 nyaa *foo(a,b)*
     c iws a pwus b
 wetuwn c
 
-OwO *notices 100 gweatew twan a *
+OwO *notices 1000 gweatew twan b *
     c iws b
     b iws b pwus a
     a iws c
     cache[n] iws b
 stawp
 
-nuzzels cache
+nuzzels cache[n]
+nuzzels foo(2,3)

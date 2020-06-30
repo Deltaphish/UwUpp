@@ -4,6 +4,7 @@ module Parser where
 import Text.Megaparsec
 import Text.Megaparsec.Debug
 import Text.Megaparsec.Char
+import qualified Text.Parser.Combinators as Comb
 import qualified Text.Megaparsec.Char.Lexer as L
 import Control.Monad.Combinators.Expr
 import Control.Monad
@@ -21,6 +22,7 @@ data Stmt
    |  If Cond [Stmt]
    |  While Cond [Stmt]
    |  Print Expr
+   |  PrintStr String
    |  InitArray Name Expr
    deriving (Eq, Ord, Show)
 
@@ -87,7 +89,7 @@ pFcall :: Parser Expr
 pFcall = do 
     fname <- identifier
     symbol "("
-    args <- many pExpr
+    args <- pExpr `Comb.sepBy` (symbol ",")
     symbol ")"
     return $ Call fname args
 
@@ -113,9 +115,9 @@ pInitArray :: Parser Stmt
 pInitArray = 
    do varName <- identifier
       symbol "iws"
-      symbol " awway("
+      symbol "awway<"
       len <- pTerm
-      symbol ")"
+      symbol ">"
       return $ InitArray varName len
 
 
@@ -163,12 +165,25 @@ pPrint =
       expr <- pExpr
       return $ Print expr
 
+pString :: Parser String
+pString = choice [
+                  char '"' >> manyTill L.charLiteral (char '"'),
+                  char '\'' >> manyTill L.charLiteral (char '\'')]
+
+   
+
+pPrintStr :: Parser Stmt
+pPrintStr =
+   do symbol "nuzzels "
+      str <- pString
+      return $ PrintStr str
+
 
 pExpr :: Parser Expr
 pExpr = makeExprParser pTerm operatorTable
 
 pStmt :: Parser Stmt
-pStmt = do (dbg "Funk" (try pfunction)) <|> (dbg "While" (try pWhile)) <|> (dbg "If" (try pIf)) <|> (dbg "Print" (try pPrint)) <|> (dbg "AssignIndex" (try pAssignIndex)) <|> (dbg "InitArray" (try pInitArray)) <|> (dbg "Assign" pAssign)
+pStmt = do (dbg "Funk" (try pfunction)) <|> (dbg "While" (try pWhile)) <|> (dbg "If" (try pIf)) <|> (dbg "PrintStr" (try pPrintStr)) <|> (dbg "Print" (try pPrint)) <|> (dbg "AssignIndex" (try pAssignIndex)) <|> (dbg "InitArray" (try pInitArray)) <|> (dbg "Assign" pAssign)
 
 operatorTable :: [[Operator Parser Expr]]
 operatorTable =
