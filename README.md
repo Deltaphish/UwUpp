@@ -18,7 +18,6 @@ As the next evolution of UwU-Lang, it retains all of the "charm" with new featur
 * Runtime printing
 
 TODO:
-* Interpreter
 * Compiler
 * Webasm target
 
