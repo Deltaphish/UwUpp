@@ -13,6 +13,7 @@ data RuntimeError = UndeclaredVariable String
     | UndeclaredFunction String
     | VariableNotAnArray String
     | NonPositivArraySize Int String
+    | NegativeIndex Int String
     | IndexOutOfBounds Int String
     | DivideByZero
 
@@ -21,6 +22,7 @@ instance Show RuntimeError where
     show (UndeclaredFunction s)     = "[Error] There was an attempt to call an undeclared function " ++ s
     show (VariableNotAnArray s)     = "[Error] There was an attempt to use variable " ++ s ++ "as an array, when it was not defined as such"
     show (NonPositivArraySize i s)  = "[Error] There was an attempt to create an array " ++ s ++ " with size " ++ (show i) ++ ". All array sizes must be larger than 0"
+    show (NegativeIndex i s)        = "[Error] Negative indexes are currently not supported: " ++ s ++ "[" ++ (show i) ++ "]."
     show (IndexOutOfBounds i s)     = "[Error] Index " ++ (show i) ++ " is out of bounds for array " ++ s
     show (DivideByZero)             = "[Error] Divide by zero is undefined"
 
@@ -30,17 +32,17 @@ runProgram :: [Stmt] -> ExceptionMonad()
 runProgram stmts = foldM_ interprit Map.empty stmts
 
 updateNth :: Int -> a -> [a] -> [a]
-updateNth _ _ [] = []
+updateNth _ _ [] = error "Error in interpreter: updateNth reached []. please contact developer"
 updateNth n v (x:xs)
     | n == 0    = v : xs
     | otherwise = x : updateNth (n-1) v xs
 
-updateList :: Index -> Int -> [Int] -> [Int]
-updateList _ _ []    = []
-updateList i v xs
-    | length xs <= i = updateList i v $ replicate (i+1) 0
-    | i < 0          = updateList (length xs - (i + 1)) v xs
-    | otherwise      = updateNth i v xs
+updateList :: Index -> Int -> String -> [Int] -> ExceptionMonad [Int]
+updateList _ _ _ []    = error "Error in interpreter: updateList reached []. please contact developer"
+updateList i v n xs
+    | length xs <= i = throwError $ show $ IndexOutOfBounds i n
+    | i < 0          = throwError $ show $ NegativeIndex i n
+    | otherwise      = return $ updateNth i v xs
 
 interprit :: SymbolTable -> Stmt -> ExceptionMonad(SymbolTable)
 interprit st (Assign n expr) = evalExpr expr st >>= (\val -> return $ Map.insert n (IntType val) st)
@@ -49,7 +51,7 @@ interprit st (AssignIndex (Index name index) expr) =
         i <- (evalExpr index st)
         v <- (evalExpr expr st)
         case Map.lookup name st of
-            Just (ArrayType xs) -> return $ Map.insert name (ArrayType (updateList i v xs)) st
+            Just (ArrayType xs) -> updateList i v name xs >>= (\newArr -> return $ Map.insert name (ArrayType newArr) st)
             _                   -> throwError $ show $ VariableNotAnArray name
 
 interprit st (Function name args stmts ret) =
@@ -92,9 +94,9 @@ evalExpr (Var name) st =
 evalExpr (Index name expr) st = do
     val <- evalExpr expr st
     case Map.lookup name st of
-        Just (ArrayType xs) -> case length xs <= val of
-                                    False -> return $ xs !! val
-                                    True -> return $ -1
+        Just (ArrayType xs) -> if length xs > val
+                                    then return $ xs !! val
+                                    else throwError $ show $ IndexOutOfBounds val name
         _ -> throwError $ show $ VariableNotAnArray name
 
 evalExpr (Call name args) st =
