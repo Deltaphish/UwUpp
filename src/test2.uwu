@@ -5,16 +5,16 @@ OwO *notices i wess twan 11*
     *notices siewe[i] eqwall twoo 0*
         j iws i twimes i
         c iws 0
-        OwO *notices j pwus c wess twan wimit pwus 1*
+        OwO *notices j pwus c wess twan wimit*
             siewe[j pwus c] iws 1
-            c iws c pwus 1
+            c iws c pwus i
         stawp
     stawp
     i iws i pwus 1
 stawp
 
-i iws 0
-OwO *notices i wess twan 101*
+i iws 1
+OwO *notices i wess twan wimit*
     *notices siewe[i] eqwall twoo 0*
         nuzzels i
     stawp
