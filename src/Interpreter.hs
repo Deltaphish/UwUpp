@@ -1,20 +1,23 @@
 module Interpreter (runProgram) where
 
 import Parser
+import AST
 import qualified Data.Map as Map
 import Control.Monad
 import Control.Monad.Except
 
 data Types = IntType Int | ArrayType [Int] | FType [String] [Stmt] Expr | PrintLog [String] deriving Show
 type SymbolTable = Map.Map String Types
-type Index = Int
 
-data RuntimeError = UndeclaredVariable String
-    | UndeclaredFunction String
-    | VariableNotAnArray String
-    | NonPositivArraySize Int String
-    | NegativeIndex Int String
-    | IndexOutOfBounds Int String
+type Index = Int
+type Error = String
+
+data RuntimeError = UndeclaredVariable Name
+    | UndeclaredFunction Name
+    | VariableNotAnArray Name
+    | NonPositivArraySize Index Name
+    | NegativeIndex Index Name
+    | IndexOutOfBounds Index Name
     | DivideByZero
 
 instance Show RuntimeError where
@@ -26,10 +29,10 @@ instance Show RuntimeError where
     show (IndexOutOfBounds i s)     = "[Error] Index " ++ (show i) ++ " is out of bounds for array " ++ s
     show (DivideByZero)             = "[Error] Divide by zero is undefined"
 
-type ExceptionMonad = ExceptT String IO
+type ExceptionMonad = ExceptT Error IO
 
 runProgram :: [Stmt] -> ExceptionMonad()
-runProgram stmts = foldM interprit Map.empty stmts >>= (\st -> liftIO $ print st) 
+runProgram stmts = foldM_ interprit Map.empty stmts
 
 updateNth :: Int -> a -> [a] -> [a]
 updateNth _ _ [] = error "Error in interpreter: updateNth reached []. please contact developer"
@@ -37,7 +40,7 @@ updateNth n v (x:xs)
     | n == 0    = v : xs
     | otherwise = x : updateNth (n-1) v xs
 
-updateList :: Index -> Int -> String -> [Int] -> ExceptionMonad [Int]
+updateList :: Index -> Value -> Name -> [Value] -> ExceptionMonad [Value]
 updateList _ _ _ []    = error "Error in interpreter: updateList reached []. please contact developer"
 updateList i v n xs
     | length xs <= i = throwError $ show $ IndexOutOfBounds i n
@@ -79,13 +82,13 @@ interprit st (InitArray n expr) = do
         then throwError $ show $ NonPositivArraySize len n
         else return $ Map.insert n (ArrayType (replicate len 0)) st
 
-evalBiOp :: (Int -> Int -> Int) -> Expr -> Expr -> SymbolTable -> ExceptionMonad(Int)
+evalBiOp :: (Value -> Value -> Value) -> Expr -> Expr -> SymbolTable -> ExceptionMonad(Value)
 evalBiOp f expr1 expr2 st = do
     e1 <- evalExpr expr1 st
     e2 <- evalExpr expr2 st
     return $ (f) e1 e2
 
-evalExpr :: Expr -> SymbolTable -> ExceptionMonad(Int)
+evalExpr :: Expr -> SymbolTable -> ExceptionMonad(Value)
 evalExpr (Var name) st =
     case Map.lookup name st of
         Just (IntType val) -> return val
@@ -124,7 +127,7 @@ evalExpr (Division expr1 expr2) st = do
         then throwError (show DivideByZero)
         else return $ e1 `div` e2
 
-evalCond' :: (Int -> Int -> Bool) -> Expr -> Expr -> SymbolTable -> ExceptionMonad(Bool)
+evalCond' :: (Value -> Value -> Bool) -> Expr -> Expr -> SymbolTable -> ExceptionMonad(Bool)
 evalCond' f e1 e2 st = do
     v1 <- evalExpr e1 st
     v2 <- evalExpr e2 st
