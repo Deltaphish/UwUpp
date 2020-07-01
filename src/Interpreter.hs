@@ -5,7 +5,7 @@ import qualified Data.Map as Map
 import Control.Monad
 import Control.Monad.Except
 
-data Types = IntType Int | ArrayType [Int] | FType [String] [Stmt] Expr | PrintLog [String]
+data Types = IntType Int | ArrayType [Int] | FType [String] [Stmt] Expr | PrintLog [String] deriving Show
 type SymbolTable = Map.Map String Types
 type Index = Int
 
@@ -29,7 +29,7 @@ instance Show RuntimeError where
 type ExceptionMonad = ExceptT String IO
 
 runProgram :: [Stmt] -> ExceptionMonad()
-runProgram stmts = foldM_ interprit Map.empty stmts
+runProgram stmts = foldM interprit Map.empty stmts >>= (\st -> liftIO $ print st) 
 
 updateNth :: Int -> a -> [a] -> [a]
 updateNth _ _ [] = error "Error in interpreter: updateNth reached []. please contact developer"
@@ -59,9 +59,9 @@ interprit st (Function name args stmts ret) =
 
 interprit st (If cond stmts) = do
     c <- evalCond cond st
-    case c of
-        True -> foldM interprit st stmts
-        False -> return $ st
+    if c
+        then foldM interprit st stmts
+        else return $ st
 
 interprit st (While cond stmts) = do
     c <- evalCond cond st
