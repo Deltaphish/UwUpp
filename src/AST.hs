@@ -2,6 +2,7 @@ module AST where
 
 type Name = String
 type Value = Int
+type Index = Int
 
 data Stmt
    = Assign Name Expr

@@ -1,12 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
+import Runtime
 import Parser
 import Interpreter
+import AST
 import Text.Megaparsec
-import Data.Text
+import qualified Data.Text.IO as TIO
 import System.Environment
 import Control.Monad.Except
+
 
 main :: IO ()
 main = do
@@ -14,12 +17,20 @@ main = do
         case args of
             [] -> error "No argument"
             [arg] -> do 
-                       inpt <- readFile arg
-                       case runParser pMain "" (pack inpt) of
-                           Right stmts -> runExceptT (runProgram stmts) >>= eval
-                           _ -> print "Error in parsing file"
+                stmtsM <- parseFile arg
+                case stmtsM of
+                    Just stmts -> do 
+                        result <- runExceptT $ runProgram stmts
+                        reportResult Clear result
+                    Nothing -> putStrLn "Error parsing file"
             _ -> error "Too many arguments"
 
-eval :: Either String () -> IO()
-eval (Right _ ) = return ()
-eval (Left e ) = print ("The intepreter found an error: " ++ e)  
+
+parseFile :: String -> IO( Maybe [Stmt] )
+parseFile f = do
+    contents <- TIO.readFile f
+    let ast = runParser pMain f contents
+    case ast of
+        Right stmts -> return $ Just stmts
+        _           -> return $ Nothing
+
