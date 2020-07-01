@@ -11,8 +11,6 @@ data RuntimeError = UndeclaredVariable Name
     | IndexOutOfBounds Index Name
     | DivideByZero
 
-data InterpreterInfoFormat = UwU | Clear
-
 instance Show RuntimeError where
     show (UndeclaredVariable s)     = "[Error] There was an attempt to use an undeclared variable " ++ s
     show (UndeclaredFunction s)     = "[Error] There was an attempt to call an undeclared function " ++ s
@@ -34,7 +32,7 @@ uwuShow (DivideByZero)             = "[Ewwow] Divide by zewo iws undefined"
 
 type Runtime = ExceptT RuntimeError IO
 
-reportResult :: InterpreterInfoFormat -> Either RuntimeError () -> IO()
+reportResult :: Bool -> Either RuntimeError () -> IO()
 reportResult _     (Right _ ) = return ()
-reportResult UwU   (Left e )  = print ("UwU? is dis a wuntwime ewwow?: " ++ uwuShow e)
-reportResult Clear (Left e )  = print ("The program failed to execute: "++ show e)  
+reportResult False   (Left e )  = print ("UwU? is dis a wuntwime ewwow?: " ++ uwuShow e)
+reportResult True (Left e )  = print ("The program failed to execute: "++ show e)  
