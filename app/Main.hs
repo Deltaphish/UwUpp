@@ -6,6 +6,7 @@ import Interpreter
 import Text.Megaparsec
 import Data.Text
 import System.Environment
+import Control.Monad.Except
 
 main :: IO ()
 main = do
@@ -15,6 +16,10 @@ main = do
             [arg] -> do 
                        inpt <- readFile arg
                        case runParser pMain "" (pack inpt) of
-                           Right stmts -> runProgram stmts
+                           Right stmts -> runExceptT (runProgram stmts) >>= eval
                            _ -> print "Error in parsing file"
             _ -> error "Too many arguments"
+
+eval :: Either String () -> IO()
+eval (Right _ ) = return ()
+eval (Left e ) = print ("The intepreter found an error: " ++ e)  

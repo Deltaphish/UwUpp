@@ -26,6 +26,7 @@ dependencies:
 - parser-combinators >= 1.2 && < 2
 - parsers >= 0.12 && < 2
 - containers >= 0.6.2 && < 1
+- mtl >= 2.2 && < 3.0
 
 library:
   source-dirs: src

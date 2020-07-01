@@ -1,7 +1,7 @@
-wimit iws 100
-siewe iws awway<100>
+wimit iws 1000
+siewe iws awway<wimit>
 i iws 2
-OwO *notices i wess twan 11*
+OwO *notices i wess twan wimit diwide 10*
     *notices siewe[i] eqwall twoo 0*
         j iws i twimes i
         c iws 0
@@ -13,11 +13,17 @@ OwO *notices i wess twan 11*
     i iws i pwus 1
 stawp
 
-i iws 1
+
+i iws 2
+count iws 0
 OwO *notices i wess twan wimit*
     *notices siewe[i] eqwall twoo 0*
         nuzzels i
+        count iws count pwus 1
     stawp
     i iws i pwus 1
 stawp
+
+nuzzels "Total number of primes"
+nuzzels count
         
