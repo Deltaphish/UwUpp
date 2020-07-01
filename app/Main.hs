@@ -15,6 +15,6 @@ main = do
             [arg] -> do 
                        inpt <- readFile arg
                        case runParser pMain "" (pack inpt) of
-                           Right stmts -> print $ runProgram stmts
-                           _ -> print "done"
+                           Right stmts -> runProgram stmts
+                           _ -> print "Error in parsing file"
             _ -> error "Too many arguments"
