@@ -94,7 +94,7 @@ pFcall = do
     return $ Call fname args
 
 pTerm :: Parser Expr
-pTerm = (dbg "Int" pInt) <|> (dbg "Fcall" $ try pFcall) <|> (dbg "VarIndex" (try pIndex)) <|> (dbg "Var" pVar)
+pTerm = pInt <|> try pFcall <|> try pIndex <|> pVar
 
 pAssign :: Parser Stmt
 pAssign = 
@@ -170,8 +170,6 @@ pString = choice [
                   char '"' >> manyTill L.charLiteral (char '"'),
                   char '\'' >> manyTill L.charLiteral (char '\'')]
 
-   
-
 pPrintStr :: Parser Stmt
 pPrintStr =
    do symbol "nuzzels "
@@ -183,7 +181,7 @@ pExpr :: Parser Expr
 pExpr = makeExprParser pTerm operatorTable
 
 pStmt :: Parser Stmt
-pStmt = do (dbg "Funk" (try pfunction)) <|> (dbg "While" (try pWhile)) <|> (dbg "If" (try pIf)) <|> (dbg "PrintStr" (try pPrintStr)) <|> (dbg "Print" (try pPrint)) <|> (dbg "AssignIndex" (try pAssignIndex)) <|> (dbg "InitArray" (try pInitArray)) <|> (dbg "Assign" pAssign)
+pStmt = do try pfunction <|> try pWhile <|> try pIf <|> try pPrintStr <|> try pPrint <|> try pAssignIndex <|> try pInitArray <|> pAssign
 
 operatorTable :: [[Operator Parser Expr]]
 operatorTable =
