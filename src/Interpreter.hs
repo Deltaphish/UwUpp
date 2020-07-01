@@ -47,9 +47,9 @@ interprit st (If cond stmts) = do
 
 interprit st (While cond stmts) = do
     c <- evalCond cond st
-    case c of
-        True -> foldM interprit st stmts >>= (\nst -> interprit nst (While cond stmts))
-        False -> return $ st
+    if c
+        then foldM interprit st stmts >>= (\nst -> interprit nst (While cond stmts))
+        else return $ st
 
 interprit st (Print expr) = evalExpr expr st >>= liftIO.print >> return st
 
