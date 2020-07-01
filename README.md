@@ -1,7 +1,7 @@
 ## UwU++ : Degeneracy evolved©
 
 ### warning: WIP
-
+### Syntax spec in the wiki
 * Have you ever felt that you can't express yourself with todays languages? <br>
 * Do you have problem of being too respected as a programmer/human being? <br>
 * Are you a person who enjoys pain? <br>
