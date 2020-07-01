@@ -37,38 +37,62 @@ a iws 1
 b iws 1
 c iws 0
 
-OwO *notices 100 gweatew than a *
-    c iws b 
+OwO *notices 100 gweatew twan b *
+    c iws b
     b iws b pwus a
     a iws c
-    n iws n pwus 1
 stawp
 
-nuzzels a
+nuzzels b
 ~~~~
 
-### print the first 100 primes
+### print all prime numbers under 1000
 ~~~~
-UwU is this pwime numbwes?
-wimit iws 100
-siewe iws awway(100)
+UwU is twis the numbwe of pwimes undwe 1000?
+wimit iws 1000
+siewe iws awway<wimit>
 i iws 2
-OwO *notices i wess twan 11*
+OwO *notices i wess twan wimit diwide 10*
     *notices siewe[i] eqwall twoo 0*
         j iws i twimes i
         c iws 0
-        OwO *notices j pwus c wess twan wimit pwus 1*
-            siewe[j+c] iws 1
-            c iws c pwus 1
+        OwO *notices j pwus c wess twan wimit*
+            siewe[j pwus c] iws 1
+            c iws c pwus i
         stawp
     stawp
     i iws i pwus 1
 stawp
 
-i iws 0
-OwO *notices i wess twan 101*
+
+i iws 2
+count iws 0
+OwO *notices i wess twan wimit*
     *notices siewe[i] eqwall twoo 0*
         nuzzels i
+        count iws count pwus 1
     stawp
+    i iws i pwus 1
 stawp
 
+nuzzels "Towtal numbwa of pwimes:"
+nuzzels count
+~~~~
+
+### Print the nth Fibonacci number, now with recursion! 
+
+~~~~
+nyaa *fiwb(a)*
+    *notices a gweatew twan 1*
+        c iws fiwb(a minwus 1) pwus fiwb(a minwus 2)
+    stawp
+    *notices a eqwall twoo  1*
+        c iws 1
+    stawp
+    *notices a eqwall twoo 0*
+        c iws 0
+    stawp
+wetuwn c
+
+nuzzels fiwb(20)
+~~~~
