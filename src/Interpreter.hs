@@ -11,7 +11,7 @@ data Types = IntType Int | ArrayType [Int] | FType [String] [Stmt] Expr | PrintL
 type SymbolTable = Map.Map String Types
 
 runProgram :: [Stmt] -> Runtime()
-runProgram stmts = foldM_ interprit Map.empty stmts
+runProgram stmts = foldM_ interpret Map.empty stmts
 
 updateNth :: Int -> a -> [a] -> [a]
 updateNth _ _ [] = error "Error in interpreter: updateNth reached []. please contact developer"
@@ -26,9 +26,9 @@ updateList i v n xs
     | i < 0          = throwError $ NegativeIndex i n
     | otherwise      = return $ updateNth i v xs
 
-interprit :: SymbolTable -> Stmt -> Runtime(SymbolTable)
-interprit st (Assign n expr) = evalExpr expr st >>= (\val -> return $ Map.insert n (IntType val) st)
-interprit st (AssignIndex (Index name index) expr) =
+interpret :: SymbolTable -> Stmt -> Runtime(SymbolTable)
+interpret st (Assign n expr) = evalExpr expr st >>= (\val -> return $ Map.insert n (IntType val) st)
+interpret st (AssignIndex (Index name index) expr) =
     do
         i <- (evalExpr index st)
         v <- (evalExpr expr st)
@@ -36,26 +36,26 @@ interprit st (AssignIndex (Index name index) expr) =
             Just (ArrayType xs) -> updateList i v name xs >>= (\newArr -> return $ Map.insert name (ArrayType newArr) st)
             _                   -> throwError $ VariableNotAnArray name
 
-interprit st (Function name args stmts ret) =
+interpret st (Function name args stmts ret) =
     return $ Map.insert name (FType args stmts ret) st
 
-interprit st (If cond stmts) = do
+interpret st (If cond stmts) = do
     c <- evalCond cond st
     if c
-        then foldM interprit st stmts
+        then foldM interpret st stmts
         else return $ st
 
-interprit st (While cond stmts) = do
+interpret st (While cond stmts) = do
     c <- evalCond cond st
     if c
-        then foldM interprit st stmts >>= (\nst -> interprit nst (While cond stmts))
+        then foldM interpret st stmts >>= (\nst -> interpret nst (While cond stmts))
         else return $ st
 
-interprit st (Print expr) = evalExpr expr st >>= liftIO.print >> return st
+interpret st (Print expr) = evalExpr expr st >>= liftIO.print >> return st
 
-interprit st (PrintStr str) = liftIO (print str) >> return st
+interpret st (PrintStr str) = liftIO (print str) >> return st
 
-interprit st (InitArray n expr) = do
+interpret st (InitArray n expr) = do
     len <- evalExpr expr st
     if len <= 0
         then throwError $ NonPositivArraySize len n
@@ -88,8 +88,8 @@ evalExpr (Call name args) st =
                 runFunction = do
                     eval_args <- mapM (\e -> evalExpr e st) args
                     let named_args = zip arg_names eval_args
-                    fstmt <- foldM interprit st $ [Assign n (Int v) | (n,v) <- named_args]
-                    foldM interprit fstmt stmts
+                    fstmt <- foldM interpret st $ [Assign n (Int v) | (n,v) <- named_args]
+                    foldM interpret fstmt stmts
         _ -> throwError $ UndeclaredFunction name
         
 
