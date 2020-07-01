@@ -20,7 +20,7 @@ UwU is this a if statement
     a iws 10 diwide 2
 stawp
 
-a iws awway(10)
+a iws awway<10>
 
 a[0] iws 1
 a[a[0]] iws 2

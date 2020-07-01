@@ -4,7 +4,7 @@ github:              "Deltaphish/UwUpp"
 license:             BSD3
 author:              "Joakim Anderlind"
 maintainer:          "joakimanderlind@gmail.com"
-copyright:           "2020 Author name here"
+copyright:           "2020 Joakim Anderlind"
 
 extra-source-files:
 - README.md
@@ -24,6 +24,10 @@ dependencies:
 - megaparsec >= 8.0 && < 9
 - text >= 1.2 && < 2
 - parser-combinators >= 1.2 && < 2
+- parsers >= 0.12 && < 2
+- containers >= 0.6.2 && < 1
+- mtl >= 2.2 && < 3.0
+- optparse-applicative >= 0.15 && < 1
 
 library:
   source-dirs: src

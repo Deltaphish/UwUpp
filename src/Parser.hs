@@ -4,50 +4,16 @@ module Parser where
 import Text.Megaparsec
 import Text.Megaparsec.Debug
 import Text.Megaparsec.Char
+import qualified Text.Parser.Combinators as Comb
 import qualified Text.Megaparsec.Char.Lexer as L
 import Control.Monad.Combinators.Expr
 import Control.Monad
 import Data.Text
 import Data.Void
 
+import AST
+
 type Parser = Parsec Void Text
-
-type Name = String
-
-data Stmt
-   = Assign Name Expr
-   |  AssignIndex Expr Expr
-   |  Function Name [Name] [Stmt] Expr
-   |  If Cond [Stmt]
-   |  While Cond [Stmt]
-   |  Print Expr
-   |  InitArray Name Expr
-   deriving (Eq, Ord, Show)
-
-data Cond
-   = Great Expr Expr
-   |  Less Expr Expr
-   |  Equal Expr Expr 
-   deriving (Eq, Ord,Show)
-
-data Expr
-  = Var Name
-  | Index Name Expr
-  | Call Name [Expr]
-  | Int Int
-  | Negation Expr
-  | Sum      Expr Expr
-  | Subtr    Expr Expr
-  | Product  Expr Expr
-  | Division Expr Expr
-  deriving (Eq, Ord, Show)
-
-data Op
-  = Plus
-  | Minus
-  | Times
-  | Divide
-  deriving (Eq, Ord, Show)
 
 sc :: Parser()
 sc = L.space
@@ -87,12 +53,12 @@ pFcall :: Parser Expr
 pFcall = do 
     fname <- identifier
     symbol "("
-    args <- many pExpr
+    args <- pExpr `Comb.sepBy` (symbol ",")
     symbol ")"
     return $ Call fname args
 
 pTerm :: Parser Expr
-pTerm = (dbg "Int" pInt) <|> (dbg "Fcall" $ try pFcall) <|> (dbg "VarIndex" (try pIndex)) <|> (dbg "Var" pVar)
+pTerm = pInt <|> try pFcall <|> try pIndex <|> pVar
 
 pAssign :: Parser Stmt
 pAssign = 
@@ -113,9 +79,9 @@ pInitArray :: Parser Stmt
 pInitArray = 
    do varName <- identifier
       symbol "iws"
-      symbol " awway("
+      symbol "awway<"
       len <- pTerm
-      symbol ")"
+      symbol ">"
       return $ InitArray varName len
 
 
@@ -163,12 +129,23 @@ pPrint =
       expr <- pExpr
       return $ Print expr
 
+pString :: Parser String
+pString = choice [
+                  char '"' >> manyTill L.charLiteral (char '"'),
+                  char '\'' >> manyTill L.charLiteral (char '\'')]
+
+pPrintStr :: Parser Stmt
+pPrintStr =
+   do symbol "nuzzels "
+      str <- pString
+      return $ PrintStr str
+
 
 pExpr :: Parser Expr
 pExpr = makeExprParser pTerm operatorTable
 
 pStmt :: Parser Stmt
-pStmt = do (dbg "Funk" (try pfunction)) <|> (dbg "While" (try pWhile)) <|> (dbg "If" (try pIf)) <|> (dbg "Print" (try pPrint)) <|> (dbg "AssignIndex" (try pAssignIndex)) <|> (dbg "InitArray" (try pInitArray)) <|> (dbg "Assign" pAssign)
+pStmt = do try pfunction <|> try pWhile <|> try pIf <|> try pPrintStr <|> try pPrint <|> try pAssignIndex <|> try pInitArray <|> pAssign
 
 operatorTable :: [[Operator Parser Expr]]
 operatorTable =
