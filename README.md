@@ -97,6 +97,6 @@ nuzzels fiwb(20)
 ~~~~
 
 ## Building the interpreter
-1. Install (stack)[https://docs.haskellstack.org] and git
+1. Install [stack](https://docs.haskellstack.org)
 2. Enter the root folder of this project and run `stack install`
 3. The previous command should place a binary in the directory given by `stack path --local-bin`
