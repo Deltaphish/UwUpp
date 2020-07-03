@@ -1,0 +1,26 @@
+http iws "HTTP/1.0 200 UwU iws twis a websever???\r\n Server: UwU++\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
+
+nyaa *fiwb(a)*
+    *notices a gweatew twan 1*
+        c iws fiwb(a minwus 1) pwus fiwb(a minwus 2)
+    stawp
+    *notices a eqwall twoo  1*
+        c iws 1
+    stawp
+    *notices a eqwall twoo 0*
+        c iws 0
+    stawp
+wetuwn c
+
+dynawic iws fiwb(20)
+
+httpStawt iws "<html>
+                <head></head>
+                <body>
+                    <h1>"
+
+httpStawp iws " </h1>
+            </body>
+        </html>"
+
+nuzzels(http pwus httpStawt pwus dynawic pwus httpStawp)

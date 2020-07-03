@@ -8,6 +8,7 @@ import Control.Monad.Except
 import Runtime
 import AST (Stmt)
 import Parser (pMain)
+import Type
 import Interpreter (runProgram)
 
 
@@ -45,3 +46,7 @@ run :: (Maybe [Stmt],Bool) -> IO()
 run (Nothing,False)   = putStrLn "OwO? fwile fwaild to parse"
 run (Nothing,True)    = putStrLn "Failed to parse file, please double check spelling"
 run ((Just stmts),b)  = runExceptT (runProgram stmts) >>= reportResult b
+
+reportResult :: Bool -> Either RuntimeError () -> IO()
+reportResult _ (Right _ ) = return ()
+reportResult _ (Left e )  = print e
