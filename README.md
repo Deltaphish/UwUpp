@@ -25,7 +25,7 @@ TODO:
 ### Hello World
 ~~~~
 UwU?
-nuzzels "Hewwo World"
+nuzzels("Hewwo World")
 ~~~~
 
 ### finds the first Fibonacci number above 100
@@ -42,7 +42,7 @@ OwO *notices 100 gweatew twan b *
     a iws c
 stawp
 
-nuzzels b
+nuzzels(b)
 ~~~~
 
 ### print all prime numbers under 1000
@@ -68,14 +68,14 @@ i iws 2
 count iws 0
 OwO *notices i wess twan wimit*
     *notices siewe[i] eqwall twoo 0*
-        nuzzels i
+        nuzzels(i)
         count iws count pwus 1
     stawp
     i iws i pwus 1
 stawp
 
-nuzzels "Towtal numbwa of pwimes:"
-nuzzels count
+nuzzels("Towtal numbwa of pwimes:")
+nuzzels(count)
 ~~~~
 
 ### Print the nth Fibonacci number, now with recursion! 
@@ -93,7 +93,44 @@ nyaa *fiwb(a)*
     stawp
 wetuwn c
 
-nuzzels fiwb(20)
+nuzzels(fiwb(20))
+
+~~~~
+
+### UwU++ webserver
+
+~~~~
+UwU? iws twis a websewer?
+UwU Run this as "while true; do UwUpp-exe ./examples/webserver.uwu | nc -l 9090 -q 1; done"
+
+http iws "HTTP/1.0 200 UwU iws twis a websever???\r\n Server: UwU++\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
+
+
+UwU? is this dynawic contwent?
+nyaa *fiwb(a)*
+    *notices a gweatew twan 1*
+        c iws fiwb(a minwus 1) pwus fiwb(a minwus 2)
+    stawp
+    *notices a eqwall twoo  1*
+        c iws 1
+    stawp
+    *notices a eqwall twoo 0*
+        c iws 0
+    stawp
+wetuwn c
+
+dynawic iws fiwb(20)
+
+htmlStawt iws "<html>
+                <head></head>
+                <body>
+                    <h1>"
+
+htmlStawp iws " </h1>
+            </body>
+        </html>"
+
+nuzzels(http pwus htmlStawt pwus dynawic pwus htmlStawp)
 ~~~~
 
 ## Building the interpreter
