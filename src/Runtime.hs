@@ -14,18 +14,10 @@ data RuntimeError = UndeclaredVariable Name
     | NoArguments
     | TooManyArgs
     | CastToIntFail String
-    | NaNNegate
-    | AddNotSupported
-    | SubNotSupported
-    | MulNotSupported
-    | DivNotSupported
-    | CmpNotSupported
-    | DivideByZero
     | CustomError String
     | InvalidArguments
     | NaNError
-    deriving Show
-{-
+
 instance Show RuntimeError where
     show (UndeclaredVariable s)     = "[Error] There was an attempt to use an undeclared variable " ++ s
     show (UndeclaredFunction s)     = "[Error] There was an attempt to call an undeclared function " ++ s
@@ -34,8 +26,8 @@ instance Show RuntimeError where
     show (NonIntIndex)             = "[Error] There was an attempt to index an array with non-integer values"
     show (NegativeIndex i s)        = "[Error] Negative indexes are currently not supported: " ++ s ++ "[" ++ (show i) ++ "]."
     show (IndexOutOfBounds i )     = "[Error] Index " ++ (show i) ++ " is out of bounds"
-    show (DivideByZero)             = "[Error] Divide by zero is undefined"
-
+    show (CustomError e)          = e
+    
 uwuShow :: RuntimeError -> String
 uwuShow (UndeclaredVariable s)     = "[Ewwow] Thewe was an attwempt tuwu use an undecwawed vawiabwe " ++ s
 uwuShow (UndeclaredFunction s)     = "[Ewwow] Thewe was an attwempt tuwu caww an undecwawed functiown " ++ s
@@ -43,8 +35,8 @@ uwuShow (VariableNotAnArray)     = "[Ewwow] Thewe was an attwempt tuwu use a vaw
 uwuShow (NonPositivArraySize i s)  = "[Ewwow] Thewe was an attempt tuwu cweate an awway " ++ s ++ " wif sise " ++ (show i) ++ ". Aww awway sizes must bwe wawgew than 0"
 uwuShow (NegativeIndex i s)        = "[Ewwow] Negatwive indexwes awe cuwwentwy nowt suppowted UwU: " ++ s ++ "[" ++ (show i) ++ "]."
 uwuShow (IndexOutOfBounds i)     = "[Ewwow] Indwex " ++ (show i) ++ " iws out of bounds fow awway"
-uwuShow (DivideByZero)             = "[Ewwow] Divide by zewo iws undefined"
--}
+uwuShow (CustomError e)         = e
+
 
 type Runtime = ExceptT RuntimeError IO
 

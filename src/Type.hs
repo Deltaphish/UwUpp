@@ -30,7 +30,7 @@ instance Show Type where
 cmpType :: Type -> Type -> Runtime(Ordering)
 cmpType (IntType a) (IntType b) = return $ compare a b
 cmpType (StrType a) (StrType b) = return $ compare a b
-cmpType _ _ = throwError CmpNotSupported
+cmpType _ _ = throwError $ CustomError "[Error] Compare is not supported for arrays or mixed types"
 
 
 safeIndex :: [a] -> Int -> Maybe a

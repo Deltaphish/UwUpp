@@ -108,7 +108,7 @@ evalExpr (Negation expr) st = do
     v <- evalExpr expr st
     case v of
         IntType i -> return $ IntType $ negate i
-        _ -> throwError $ NaNNegate
+        _ -> throwError $ CustomError "[Error] Can't negate a non number"
 
 evalExpr (Sum expr1 expr2) st = do 
     (e1,e2) <- evalBi expr1 expr2 st
@@ -117,27 +117,27 @@ evalExpr (Sum expr1 expr2) st = do
         (IntType i1, StrType s) -> return $ StrType $ (show i1) ++ s
         (StrType s, IntType i2) -> return $ StrType $ s ++ (show i2)
         (StrType s1, StrType s2) -> return $ StrType $ s1 ++ s2
-        _ -> throwError AddNotSupported
+        _ -> throwError $ CustomError "[Error] Add is only supported for ints and strings"
 
 evalExpr (Subtr expr1 expr2) st = do
     (e1,e2) <- evalBi expr1 expr2 st
     case (e1,e2) of
         (IntType i1, IntType i2) -> return $ IntType ( i1 - i2 )
-        _ -> throwError SubNotSupported
+        _ -> throwError $ CustomError "[Error] Subtraction is only supported for ints"
 
 evalExpr (Product expr1 expr2) st = do
     (e1,e2) <- evalBi expr1 expr2 st
     case (e1,e2) of
         (IntType i1, IntType i2) -> return $ IntType ( i1 * i2 )
-        _ -> throwError MulNotSupported
+        _ -> throwError $ CustomError "[Error] Multiplication is only supported for ints"
 
 evalExpr (Division expr1 expr2) st = do
     (e1,e2) <- evalBi expr1 expr2 st
     case (e1,e2) of
         (IntType i1, IntType i2) -> if i2 == 0
-                                then throwError DivideByZero
+                                then throwError $ CustomError "[Error] divide by 0 undefined"
                                 else return $ IntType $ i1 `div` i2
-        _ -> throwError DivNotSupported
+        _ -> throwError $ CustomError "[Error] Division is only supported for ints"
 
 
 evalCond' :: Ordering -> Expr -> Expr -> SymbolTable -> Runtime(Bool)

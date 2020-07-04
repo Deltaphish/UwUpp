@@ -48,5 +48,7 @@ run (Nothing,True)    = putStrLn "Failed to parse file, please double check spel
 run ((Just stmts),b)  = runExceptT (runProgram stmts) >>= reportResult b
 
 reportResult :: Bool -> Either RuntimeError () -> IO()
-reportResult _ (Right _ ) = return ()
-reportResult _ (Left e )  = print e
+reportResult _     (Right _ ) = return ()
+reportResult False   (Left e )  = print ("UwU? is dis a wuntwime ewwow?: " ++ uwuShow e)
+reportResult True (Left e )  = print ("The program failed to execute: "++ show e)
+
