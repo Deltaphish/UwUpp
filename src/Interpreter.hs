@@ -4,6 +4,7 @@ import Parser
 import AST
 import Runtime
 import Type
+import StdLib
 import qualified Data.Map as Map
 import Data.Ord
 import Data.Maybe

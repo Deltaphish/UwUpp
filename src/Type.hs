@@ -3,6 +3,7 @@ module Type where
 import Runtime
 import Data.Maybe
 import Data.Ord
+import Data.List
 import qualified Data.Map as Map
 import Control.Monad.Except
 import Text.Read
@@ -22,8 +23,8 @@ data Type = IntType I32
 instance Show Type where
     show (IntType i) = show i
     show (StrType s) = s
-    show (StrArrayType ss) = unwords $ map show ss
-    show (IntArrayType is) = unwords $ map show is
+    show (StrArrayType ss) = unwords $ intersperse "," $ map show ss
+    show (IntArrayType is) = unwords $ intersperse "," $ map show is
     show (FType _) = "Function"
 
 cmpType :: Type -> Type -> Runtime(Ordering)
@@ -88,25 +89,3 @@ typeShow (StrArrayType vs) = Just $ unwords $ mapMaybe typeShow vs
 typeShow (FType _ )      = Nothing
  
 type SymbolTable = Map.Map String Type
-
-initST :: SymbolTable
-initST = Map.fromList init
-    where init = [ ("nuzzels",FType std_print)
-                , ("wead",FType std_read)
-                , ("weadInt",FType std_readInt)]
-
-std_print :: Function
-std_print [] _ = throwError NoArguments
-std_print a _ = do
-    liftIO $ putStrLn $ unwords $ mapMaybe typeShow a
-    return $ IntType 0
-
-std_read :: Function
-std_read [] _ = do
-    s <- liftIO getLine
-    return $ StrType s
-
-std_readInt :: Function
-std_readInt [] _ = do
-    i <- liftIO readLn :: Runtime Int
-    return $ IntType i

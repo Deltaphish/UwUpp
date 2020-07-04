@@ -21,6 +21,8 @@ data RuntimeError = UndeclaredVariable Name
     | DivNotSupported
     | CmpNotSupported
     | DivideByZero
+    | CustomError String
+    | InvalidArguments
     | NaNError
     deriving Show
 {-
