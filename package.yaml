@@ -28,6 +28,7 @@ dependencies:
 - containers >= 0.6.2 && < 1
 - mtl >= 2.2 && < 3.0
 - optparse-applicative >= 0.15 && < 1
+- split >= 0.2 && < 0.3
 
 library:
   source-dirs: src

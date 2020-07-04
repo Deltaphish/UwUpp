@@ -1,0 +1,11 @@
+contwents iws wead("examples/data.txt")
+i iws 0
+
+OwO *notices i wess twan wength(contwents)*
+    words iws spwit(contwents[i], " ")
+    words[3] iws "UwU!"
+    contwents[i] iws conwat(words," ")
+    i iws i pwus 1
+stawp
+
+wite("examples/new-data.txt",contwents)

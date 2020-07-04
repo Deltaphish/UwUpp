@@ -27,8 +27,9 @@ lexeme = L.lexeme sc
 symbol :: Text -> Parser Text
 symbol = L.symbol sc
 
-stringLiteral :: Parser String
-stringLiteral = char '\"' *> manyTill L.charLiteral (char '\"')
+--stringLiteral :: Parser String
+--stringLiteral = char '\"' *> manyTill L.charLiteral (char '\"')
+
 
 parens :: Parser a -> Parser a
 parens = between (symbol "(") (symbol ")")
@@ -49,6 +50,14 @@ pIndex =
       symbol "]"
       return $ Index name index
 
+pFcallStmt :: Parser Stmt
+pFcallStmt = do
+    fname <- identifier
+    symbol "("
+    args <- pExpr `Comb.sepBy` (symbol ",")
+    symbol ")"
+    return $ FunctionCall fname args
+
 pFcall :: Parser Expr
 pFcall = do 
     fname <- identifier
@@ -58,7 +67,7 @@ pFcall = do
     return $ Call fname args
 
 pTerm :: Parser Expr
-pTerm = pInt <|> try pFcall <|> try pIndex <|> pVar
+pTerm = pInt <|> try pStr <|> try pFcall <|> try pIndex <|> pVar
 
 pAssign :: Parser Stmt
 pAssign = 
@@ -74,15 +83,20 @@ pAssignIndex =
       expr <- pExpr
       return $ AssignIndex index expr
 
-
 pInitArray :: Parser Stmt
 pInitArray = 
    do varName <- identifier
       symbol "iws"
       symbol "awway<"
       len <- pTerm
+      sc
+      symbol ";"
+      t <- choice [
+         ArrayTypeInt <$ symbol "int",
+         ArrayTypeString <$ symbol "str"]
+
       symbol ">"
-      return $ InitArray varName len
+      return $ InitArray varName len t
 
 
 pfunction :: Parser Stmt
@@ -123,29 +137,38 @@ pWhile =
       body <- try $ pStmt `manyTill` (symbol "stawp")
       return $ While cond body
 
+{-
 pPrint :: Parser Stmt
 pPrint = 
    do symbol "nuzzels "
       expr <- pExpr
       return $ Print expr
+-}
 
 pString :: Parser String
 pString = choice [
                   char '"' >> manyTill L.charLiteral (char '"'),
                   char '\'' >> manyTill L.charLiteral (char '\'')]
 
+pStr :: Parser Expr
+pStr = do
+   s <- pString
+   sc
+   return $ Str s
+
+{-
 pPrintStr :: Parser Stmt
 pPrintStr =
    do symbol "nuzzels "
       str <- pString
       return $ PrintStr str
-
+-}
 
 pExpr :: Parser Expr
 pExpr = makeExprParser pTerm operatorTable
 
 pStmt :: Parser Stmt
-pStmt = do try pfunction <|> try pWhile <|> try pIf <|> try pPrintStr <|> try pPrint <|> try pAssignIndex <|> try pInitArray <|> pAssign
+pStmt = do try pfunction <|> try pWhile <|> try pIf <|> try pAssignIndex <|> try pInitArray <|> try pAssign <|> pFcallStmt
 
 operatorTable :: [[Operator Parser Expr]]
 operatorTable =

@@ -1,6 +1,6 @@
 UwU is twis the numbwe of pwimes undwe 10000?
 wimit iws 10000
-siewe iws awway<wimit>
+siewe iws awway<wimit;int>
 i iws 2
 OwO *notices i wess twan wimit diwide 10*
     *notices siewe[i] eqwall twoo 0*
@@ -17,14 +17,15 @@ stawp
 
 i iws 2
 count iws 0
+false iws 0
 OwO *notices i wess twan wimit*
     *notices siewe[i] eqwall twoo 0*
-        nuzzels i
+        nuzzels(i)
         count iws count pwus 1
     stawp
     i iws i pwus 1
 stawp
 
-nuzzels "Twotwal numbwa of pwimes"
-nuzzels count
+nuzzels("Twotwal numbwa of pwimes")
+nuzzels(count)
         
