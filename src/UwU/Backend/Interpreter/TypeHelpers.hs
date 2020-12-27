@@ -1,13 +1,13 @@
-module Interpreter.TypeHelpers where
+module UwU.Backend.Interpreter.TypeHelpers where
 
-import Interpreter.Runtime
+import UwU.Backend.Interpreter.Runtime
 import Data.Maybe
 import Data.Ord
 import Data.List
 import qualified Data.Map as Map
 import Control.Monad.Except
 import Text.Read
-import Parser.AST (Stmt,Expr)
+import UwU.Frontend.AST (Stmt,Expr)
 
 type I32 = Int
 type Str = String

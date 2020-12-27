@@ -1,10 +1,10 @@
-module Interpreter.Run (runProgram) where
+module UwU.Backend.Interpreter.Run (runProgram) where
 
-import Parser.Parser
-import Parser.AST
-import Interpreter.Runtime
-import Interpreter.TypeHelpers
-import Interpreter.StdLib
+import UwU.Frontend.Parser
+import UwU.Frontend.AST
+import UwU.Backend.Interpreter.Runtime
+import UwU.Backend.Interpreter.TypeHelpers
+import UwU.Backend.Interpreter.StdLib
 import qualified Data.Map as Map
 import Data.Ord
 import Data.Maybe

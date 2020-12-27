@@ -1,15 +1,18 @@
-module CLI (cli,parseFile,run) where
+module UwU.CLI (cli,parseFile,run) where
 
 import Options.Applicative
 import Data.Semigroup ((<>))
 import Text.Megaparsec
 import qualified Data.Text.IO as TIO
 import Control.Monad.Except
-import Interpreter.Runtime
-import Parser.AST (Stmt)
-import Parser.Parser (pMain)
-import Interpreter.TypeHelpers
-import Interpreter.Run (runProgram)
+
+import UwU.Frontend.AST (Stmt)
+
+import UwU.Frontend.Parser (pMain)
+import UwU.Backend.Interpreter.TypeHelpers
+import UwU.Backend.Interpreter.Run (runProgram)
+import UwU.Backend.Interpreter.Runtime
+
 
 
 data CLIConfig = CLIConfig

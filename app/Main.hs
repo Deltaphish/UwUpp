@@ -1,6 +1,6 @@
 module Main where
 
-import CLI
+import UwU.CLI
 
 main :: IO ()
 main = do

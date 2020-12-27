@@ -1,12 +1,12 @@
-module Interpreter.StdLib (initST) where
+module UwU.Backend.Interpreter.StdLib (initST) where
 
 -- STD library functions implemented in Haskell for use in UwU++ programs
 -- The "S" in STD means nothing, expect that these functions and there signatures will change.
 
 
 import Control.Monad.Except (liftIO,throwError)
-import Interpreter.TypeHelpers
-import Interpreter.Runtime
+import UwU.Backend.Interpreter.TypeHelpers
+import UwU.Backend.Interpreter.Runtime
 import qualified Data.Map as Map
 import Data.Maybe
 import Data.List

@@ -1,4 +1,4 @@
-module Parser.AST where
+module UwU.Frontend.AST where
 
 type Name = String
 type Value = Int
