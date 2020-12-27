@@ -1,7 +1,7 @@
-module Runtime where
+module Interpreter.Runtime where
 
 import Control.Monad.Except
-import AST
+import Parser.AST
 
 data RuntimeError = UndeclaredVariable Name
     | UndeclaredFunction Name

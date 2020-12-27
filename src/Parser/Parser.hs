@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Parser where
+module Parser.Parser where
 
 import Text.Megaparsec
 import Text.Megaparsec.Debug
@@ -11,7 +11,7 @@ import Control.Monad
 import Data.Text
 import Data.Void
 
-import AST
+import Parser.AST
 
 type Parser = Parsec Void Text
 

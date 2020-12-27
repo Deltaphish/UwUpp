@@ -1,8 +1,12 @@
-module StdLib(initST) where
+module Interpreter.StdLib (initST) where
 
-import Type 
+-- STD library functions implemented in Haskell for use in UwU++ programs
+-- The "S" in STD means nothing, expect that these functions and there signatures will change.
+
+
 import Control.Monad.Except (liftIO,throwError)
-import Runtime
+import Interpreter.TypeHelpers
+import Interpreter.Runtime
 import qualified Data.Map as Map
 import Data.Maybe
 import Data.List

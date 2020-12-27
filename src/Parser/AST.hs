@@ -1,4 +1,4 @@
-module AST where
+module Parser.AST where
 
 type Name = String
 type Value = Int

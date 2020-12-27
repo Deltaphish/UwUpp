@@ -1,13 +1,13 @@
-module Type where
+module Interpreter.TypeHelpers where
 
-import Runtime
+import Interpreter.Runtime
 import Data.Maybe
 import Data.Ord
 import Data.List
 import qualified Data.Map as Map
 import Control.Monad.Except
 import Text.Read
-import AST (Stmt,Expr)
+import Parser.AST (Stmt,Expr)
 
 type I32 = Int
 type Str = String

@@ -5,11 +5,11 @@ import Data.Semigroup ((<>))
 import Text.Megaparsec
 import qualified Data.Text.IO as TIO
 import Control.Monad.Except
-import Runtime
-import AST (Stmt)
-import Parser (pMain)
-import Type
-import Interpreter (runProgram)
+import Interpreter.Runtime
+import Parser.AST (Stmt)
+import Parser.Parser (pMain)
+import Interpreter.TypeHelpers
+import Interpreter.Run (runProgram)
 
 
 data CLIConfig = CLIConfig

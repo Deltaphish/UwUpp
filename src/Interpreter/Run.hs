@@ -1,10 +1,10 @@
-module Interpreter (runProgram) where
+module Interpreter.Run (runProgram) where
 
-import Parser
-import AST
-import Runtime
-import Type
-import StdLib
+import Parser.Parser
+import Parser.AST
+import Interpreter.Runtime
+import Interpreter.TypeHelpers
+import Interpreter.StdLib
 import qualified Data.Map as Map
 import Data.Ord
 import Data.Maybe
@@ -14,6 +14,7 @@ import Control.Monad.Except
 runProgram :: [Stmt] -> Runtime()
 runProgram stmts = foldM_ interpret initST stmts
 
+-- Run native UwU++ function
 nativeWrapper :: [Name] -> [Stmt] -> Expr -> [Type] -> SymbolTable -> Runtime(Type)
 nativeWrapper arg_names body ret args st = runFunction >>= evalExpr ret 
     where   
