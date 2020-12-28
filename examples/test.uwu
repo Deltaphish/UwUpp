@@ -1,2 +1,3 @@
 a iws 2 pwus 2
-ret iws a
+b iws a minwus 1
+ret iws b

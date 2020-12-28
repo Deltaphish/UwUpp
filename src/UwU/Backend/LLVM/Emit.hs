@@ -68,6 +68,11 @@ cgen (UwU.AST.Sum x1 x2) = do
   op2 <- cgen x2
   fadd op1 op2
 
+cgen (UwU.AST.Subtr x1 x2) = do
+  op1 <- cgen x1
+  op2 <- cgen x2
+  fsub op1 op2
+
 cgen (UwU.AST.Call fn args) = do
   largs <- mapM cgen args
   call (externf (AST.Name (stosbs fn))) largs
