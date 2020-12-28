@@ -1,3 +1,5 @@
-a iws 2 pwus 2
+a iws 2 pwus 3
 b iws a minwus 1
+c iws b diwide 2
+b iws c twimes 3
 ret iws b
