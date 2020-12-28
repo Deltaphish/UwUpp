@@ -79,8 +79,8 @@ addDefn d = do
   defs <- gets moduleDefinitions
   modify $ \s -> s { moduleDefinitions = defs ++ [d] }
 
-define ::  Type -> Str -> [(Type, Name)] -> [BasicBlock] -> LLVM ()
-define retty label argtys body = addDefn $
+define ::  Type -> Str -> [(Type, Name)] -> [BasicBlock] -> Definition
+define retty label argtys body = 
   GlobalDefinition $ functionDefaults {
     name        = Name label
   , parameters  = ([Parameter ty nm [] | (ty, nm) <- argtys], False)
@@ -161,7 +161,7 @@ local ::  Name -> Operand
 local = LocalReference intType
 
 externf :: Name -> Operand
-externf = ConstantOperand . C.GlobalReference intType
+externf = ConstantOperand . C.GlobalReference (PointerType (FunctionType (PointerType (intType) $ AddrSpace 0) [] False ) (AddrSpace 0))
 
 assign :: Str -> Operand -> Codegen ()
 assign var x = do
