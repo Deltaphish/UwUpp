@@ -20,13 +20,14 @@ import qualified LLVM.AST.CallingConvention as CC
 import qualified LLVM.AST.Type as Type
 import qualified LLVM.AST.Linkage as L
 import qualified  Data.Map as Map
+import LLVM.AST.AddrSpace
 
 intType :: Type
 intType = Type.i64
 
 type Str = B.Short.ShortByteString
 
-type SymbolTable = [(String, Operand)]
+type SymbolTable = [(Str, Operand)]
 
 buildNewName :: Str -> Int -> Str
 buildNewName nm ix = B.Short.toShort $ toStrict $  toLazyByteString b
@@ -70,6 +71,9 @@ runLLVM mod (LLVM m) = execState m mod
 emptyModule :: Str -> AST.Module
 emptyModule label = defaultModule { moduleName = label }
 
+emptyCodegen :: CodegenState
+emptyCodegen = CodegenState (Name entryBlockName) Map.empty [] 1 0 Map.empty
+
 addDefn :: Definition -> LLVM ()
 addDefn d = do
   defs <- gets moduleDefinitions
@@ -84,21 +88,11 @@ define retty label argtys body = addDefn $
   , basicBlocks = body
   }
 
-external ::  Type -> Str -> [(Type, Name)] -> LLVM ()
-external retty label argtys = addDefn $
-  GlobalDefinition $ functionDefaults {
-    name        = Name label
-  , linkage     = L.External
-  , parameters  = ([Parameter ty nm [] | (ty, nm) <- argtys], False)
-  , returnType  = retty
-  , basicBlocks = []
-  }
-
 entry :: Codegen Name
 entry = gets currentBlock
 
 makeBlock :: (Name, BlockState) -> BasicBlock
-makeBlock (l, (BlockState _ s t)) = BasicBlock l (reverse s) (maketerm t)
+makeBlock (l, BlockState _ s t) = BasicBlock l (reverse s) (maketerm t)
   where
     maketerm (Just x) = x
     maketerm Nothing = error $ "Block has no terminator: " ++ (show l)
@@ -143,6 +137,9 @@ entryBlockName = "entry"
 emptyBlock :: Int -> BlockState
 emptyBlock i = BlockState i [] Nothing
 
+execCodegen :: Codegen a -> CodegenState
+execCodegen m = execState (runCodegen m) emptyCodegen
+
 current :: Codegen BlockState
 current = do
   c <- gets currentBlock
@@ -166,17 +163,17 @@ local = LocalReference intType
 externf :: Name -> Operand
 externf = ConstantOperand . C.GlobalReference intType
 
-assign :: String -> Operand -> Codegen ()
+assign :: Str -> Operand -> Codegen ()
 assign var x = do
   lcls <- gets symtab
   modify $ \s -> s { symtab = (var, x) : lcls }
 
-getvar :: String -> Codegen Operand
+getvar :: Str -> Codegen Operand
 getvar var = do
   syms <- gets symtab
   case lookup var syms of
     Just x  -> return x
-    Nothing -> error $ "Local variable not in scope: " ++ show var
+    Nothing -> assign var (cons $ C.Int 64 (toInteger  0)) >> getvar var
 
 instr :: Instruction -> Codegen Operand
 instr ins = do

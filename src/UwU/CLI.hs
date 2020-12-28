@@ -12,12 +12,17 @@ import UwU.Frontend.Parser (pMain)
 import UwU.Backend.Interpreter.TypeHelpers
 import UwU.Backend.Interpreter.Run (runProgram)
 import UwU.Backend.Interpreter.Runtime
+import UwU.Backend.LLVM.Emit
+import UwU.Backend.LLVM.IRGen
+
+import LLVM.Module
 
 
 
 data CLIConfig = CLIConfig
     { fileName            :: String
-    , clearExceptions     :: Bool }
+    , clearExceptions     :: Bool
+    , compile             :: Bool}
 
 cliConfig :: Parser CLIConfig
 cliConfig = CLIConfig
@@ -27,6 +32,9 @@ cliConfig = CLIConfig
     <*> switch
         ( long "human-errors"
         <> help "Un-UwU error messages for easier debuging")
+    <*> switch
+        ( long "compile"
+        <> help "Compile uwu++ to LLVM IR")
 
 
 cli :: IO (CLIConfig)
@@ -37,13 +45,20 @@ cli = execParser opts
             <> progDesc "This is the offical interpreter for UwUpp!"
             <> header "An intepreter for UwUpp")
 
-parseFile :: CLIConfig -> IO( (Maybe [Stmt], Bool))
-parseFile (CLIConfig file clearText) = do
+parseFile :: CLIConfig -> IO()
+parseFile (CLIConfig file clearText cmpl) = do
     contents <- TIO.readFile file
-    let ast = runParser pMain file contents
-    case ast of
-        Right stmts -> return $ (Just stmts,clearText)
-        _           -> return $ (Nothing,clearText)
+    print contents
+    let ast = case runParser pMain file contents of
+                Right stmts -> Just stmts
+                _           -> Nothing
+
+    print ast
+    if cmpl then compileToIR ast else run (ast,clearText)
+
+
+compileToIR :: Maybe [Stmt] -> IO()
+compileToIR (Just stmts) = codegen (emptyModule (stosbs "discus")) stmts >> return ()
 
 run :: (Maybe [Stmt],Bool) -> IO()
 run (Nothing,False)   = putStrLn "OwO? fwile fwaild to parse"
