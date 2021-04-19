@@ -1,0 +1,66 @@
+wunning iws 1
+OwO *notices wunning eqwall twoo 1*
+    UwU Get the first number
+    nuzzels("Numbew 1: ")
+    numbew1 iws wistenInt()
+
+    UwU Get the second number
+    nuzzels("Numbew 2: ")
+    numbew2 iws wistenInt()
+
+    UwU Get the operator
+    nuzzels("Opewatow (Pwus|Minwus|Multipwy|Diwide|Pow|Woot: Numbew 1)|Mod")
+    opewatow iws wisten()
+
+    *notices opewatow eqwall twoo "Pwus"*
+        nuzzels("Answew: ", numbew1 pwus numbew2)
+    stawp
+    *notices opewatow eqwall twoo "Minwus"*
+        nuzzels("Answew: ", numbew1 minwus numbew2)
+    stawp
+    *notices opewatow eqwall twoo "Multipwy"*
+        nuzzels("Answew: ", numbew1 twimes numbew2)
+    stawp
+    *notices opewatow eqwall twoo "Mod"*
+        nuzzels ("Answer: ", numbew1 minwus numbew1 diwide numbew2 twimes numbew2)
+    stawp
+    *notices opewatow eqwall twoo "Pow"*
+        num iws numbew2 minwus 1
+        num1 iws numbew1
+        OwO *notices num gweatew twan 0*
+            num1 iws num1 twimes numbew1
+            num iws num minwus 1
+        stawp
+        nuzzels(num1)
+    stawp
+    *notices opewatow eqwall twoo "Woot"*
+        UwU Getting twe squawe woot of a numbew
+        num iws numbew1 pwus numbew1
+        num iws num diwide numbew1
+        num iws num diwide 2
+        *notices num gweatew twan 0*
+            num2 iws num pwus numbew1 diwide num 
+            num2 iws num2 diwide 2
+            *notices num2 gweatew twan 0*
+                num3 iws num pwus numbew1 diwide num 
+                num3 iws num3 diwide 2
+                *notices num3 gweatew twan 0*
+                    num4 iws num pwus numbew1 diwide num 
+                    num4 iws num4 diwide 2
+                    nuzzels("Answer:", num4)
+                stawp
+            stawp
+        stawp
+    stawp
+    *notices opewatow eqwall twoo "Diwide"*
+        *notices numbew2 gweatew twan 0*
+            nuzzels("Answew: ", numbew1 diwide numbew2)
+        stawp
+        *notices numbew2 wess twan 0*
+            nuzzels("Answew: ", numbew1 diwide numbew2)
+        stawp
+        *notices numbew2 eqwall twoo 0*
+            nuzzels("UwU!?!?!? I cannot diwide bwy z-zewo")
+        stawp
+    stawp
+stawp
