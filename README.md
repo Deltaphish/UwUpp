@@ -29,7 +29,7 @@ TODO:
 * Webasm target
 
 # Installation
-`UwUpp` can be installed on Arch-based systems with `yay uwupp-git`. For all other systems:
+`UwUpp` is in the AUR as `uwupp-git`. Its only dependency is `stack`. For all other systems:
 
 1. Install [stack](https://docs.haskellstack.org)
 2. Enter the root folder of this project and run `stack install`
