@@ -1,7 +1,7 @@
 ## UwU++ : Degeneracy evolved©
 ### warning: WIP
 
-## Index:
+### Index:
 - [Information](#information)
 - [Installation](#installation)
 - [Examples](#examples)
