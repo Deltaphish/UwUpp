@@ -1,6 +1,13 @@
 ## UwU++ : Degeneracy evolved©
-
 ### warning: WIP
+
+## Index:
+- [Information](#information)
+- [Installation](#installation)
+- [Examples](#examples)
+
+## Information:
+
 ### Syntax spec in the wiki
 * Have you ever felt that you can't express yourself with todays languages? <br>
 * Do you have problem of being too respected as a programmer/human being? <br>
@@ -21,7 +28,15 @@ TODO:
 * Compiler
 * Webasm target
 
-## Code example:
+# Installation
+`UwUpp` can be installed on Arch-based systems with `yay uwupp-git`. For all other systems:
+
+1. Install [stack](https://docs.haskellstack.org)
+2. Enter the root folder of this project and run `stack install`
+3. The previous command will place the interpreter binary in the directory given by `stack path --local-bin`, usually `~/.local/bin`.
+
+# Examples
+
 ### Hello World
 ~~~~
 UwU?
@@ -132,8 +147,3 @@ htmlStawp iws " </h1>
 
 nuzzels(http pwus htmlStawt pwus dynawic pwus htmlStawp)
 ~~~~
-
-## Building the interpreter
-1. Install [stack](https://docs.haskellstack.org)
-2. Enter the root folder of this project and run `stack install`
-3. The previous command should place a binary in the directory given by `stack path --local-bin`
