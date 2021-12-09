@@ -116,7 +116,7 @@ nuzzels(fiwb(20))
 
 ~~~~
 UwU? iws twis a websewer?
-UwU Run this as "while true; do UwUpp-exe ./examples/webserver.uwu | nc -l 9090 -q 1; done"
+UwU Run this as "UwUpp-exe ./examples/webserver.uwu | nc -l 9090"
 
 http iws "HTTP/1.0 200 UwU iws twis a websever???\r\n Server: UwU++\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
 
