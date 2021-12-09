@@ -13,7 +13,7 @@
 * Do you have problem of being too respected as a programmer/human being? <br>
 * Are you a person who enjoys pain? <br>
 
-UwU++ is a imperative programming language which aims to compete with brainf*ck to be the most painfull programming language to read and write in.
+UwU++ is a imperative programming language which aims to compete with brainf*ck to be the most painful programming language to read and write in.
 As the next evolution of UwU-Lang, it retains all of the "charm" with new features like:
 
 * Arrays
@@ -116,7 +116,7 @@ nuzzels(fiwb(20))
 
 ~~~~
 UwU? iws twis a websewer?
-UwU Run this as "while true; do UwUpp-exe ./examples/webserver.uwu | nc -l 9090 -q 1; done"
+UwU Run this as "UwUpp-exe ./examples/webserver.uwu | nc -l 9090"
 
 http iws "HTTP/1.0 200 UwU iws twis a websever???\r\n Server: UwU++\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
 
