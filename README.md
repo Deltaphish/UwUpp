@@ -13,7 +13,7 @@
 * Do you have problem of being too respected as a programmer/human being? <br>
 * Are you a person who enjoys pain? <br>
 
-UwU++ is a imperative programming language which aims to compete with brainf*ck to be the most painfull programming language to read and write in.
+UwU++ is a imperative programming language which aims to compete with brainf*ck to be the most painful programming language to read and write in.
 As the next evolution of UwU-Lang, it retains all of the "charm" with new features like:
 
 * Arrays
