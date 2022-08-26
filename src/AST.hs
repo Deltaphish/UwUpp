@@ -35,6 +35,7 @@ data Expr
   | Subtr    Expr Expr
   | Product  Expr Expr
   | Division Expr Expr
+  | Rem      Expr Expr
   deriving (Eq, Ord, Show)
 
 data Op

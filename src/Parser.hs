@@ -177,6 +177,7 @@ operatorTable =
     ]
   , [ binary "twimes" Product
     , binary "diwide" Division
+    , binary "wemaindew" Rem
     ]
   , [ binary "pwus" Sum
     , binary "minwus" Subtr
