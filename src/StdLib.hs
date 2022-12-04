@@ -98,6 +98,6 @@ std_concat _ _ = throwError $ InvalidArguments
 std_split :: Function
 std_split [] _ = throwError $ NoArguments
 std_split ((StrType s) : (StrType splt) : []) _
+    | splt == ""            = return $ StrArrayType $ map (\c -> StrType [c]) s
     | length splt >= length s = throwError $ CustomError "Splitting element longer than string"
-    | splt == ""            = return $ StrArrayType [StrType s]
     | otherwise = return $ StrArrayType $ map StrType $ splitOn splt s
